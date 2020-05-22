@@ -53,8 +53,9 @@ resource "aws_security_group" "jenkins_ssh_http_sg" {
 # Create the jenkins instance
 resource "aws_instance" "jenkins_instance" {
   instance_type = "${var.instance_type}"
-  #ami           = "ami-082aeda1d9c2542d7"
-  ami           = "ami-00077e3fed5089981"
+  
+  # Amazon Linux 2 AMI
+  ami           = "ami-06ce3edf0cff21f07"
 
   tags {
     Name = "graphenedb_jenkins"
