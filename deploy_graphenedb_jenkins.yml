@@ -1,0 +1,4 @@
+- hosts: nodes
+  become: yes
+  roles:
+    - graphenedb_jenkins

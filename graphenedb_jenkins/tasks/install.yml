@@ -1,0 +1,29 @@
+---
+- name: install java
+  become: yes
+  yum: 
+    name: java-1.8.0-openjdk.x86_64
+    state: present
+
+- name: Add Jenkins repositorie
+  yum_repository:
+    name: jenkins
+    description: Jenkins-stable
+    baseurl: http://pkg.jenkins.io/redhat-stable
+    gpgcheck: yes
+
+- rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+- name: Install Jenkins
+  become: yes
+  yum:
+    name: jenkins-2.222.1-1.1.noarch
+    state: present
+
+- name: install git
+  yum:
+    name: git
+    state: present
+

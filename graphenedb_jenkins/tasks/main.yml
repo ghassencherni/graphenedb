@@ -1,0 +1,4 @@
+---
+# tasks file for graphenedb_jenkins
+- include_tasks: install.yml
+- include_tasks: configure.yml

@@ -1,0 +1,48 @@
+---
+
+# Installing kubectl: Allows jenkins to manage our EKS Cluster
+- name: get kubectl binary
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-release/release/v1.18.1/bin/linux/amd64/kubectl
+    dest: /usr/bin/kubectl
+    mode: 0751
+
+# Allows jenkins user to authenticate on AWS 
+- name: get aws-iam-authenticator binary
+  get_url:
+    url: https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+    dest: /usr/bin/aws-iam-authenticator
+    mode: 0751
+
+# Installing Terraform to allow jenkins to deploy AWS EKS ressources
+- name: Unarchive and copy the terraform binary
+  unarchive:
+    src: https://releases.hashicorp.com/terraform/0.11.14/terraform_0.11.14_linux_amd64.zip
+    dest: /usr/bin
+    remote_src: yes
+
+- name: start and enable Jenkins
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
+- name: Wait for port 8080 to become open on the jenkins host
+  wait_for:
+    port: 8080
+    delay: 30
+
+# Plugins allow to exchange artifacts between projects: used to copy kubeconfig file from "graphenedb-eks" to "graphenedb-etcd"
+- name: Copy copy-artifacts plugin
+  copy:
+    src: copyartifact.jpi
+    dest: /var/lib/jenkins/plugins
+    owner: jenkins
+    group: jenkins
+
+- name: get initialAdminPassword
+  command: /bin/cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: initialpass
+
+- name: Create the jenkins env file
+  local_action: shell echo "export INIT_PASSWORD={{ initialpass.stdout }}\nexport JENKINS_URL=http://{{ inventory_hostname }}:8080" > /tmp/jenkins.env
