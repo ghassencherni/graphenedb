@@ -20,6 +20,12 @@
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>etcd_chart_version</name>
+          <description>Etcd helm chart version, etcd version 3.4.3 with the default chart version 4.3.11 </description>
+          <defaultValue>4.3.11</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
