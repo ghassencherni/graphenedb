@@ -1,0 +1,20 @@
+{
+    "CN": "",
+    "hosts": [
+	    "*.graphenedb-etcd-headless.default.svc.cluster.local",
+	    "127.0.0.1",
+	    "*.eu-west-1.elb.amazonaws.com"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "SP",
+            "ST": "Las Palmas De Gran Canaria",
+            "OU": "orange team"
+        }
+    ]
+
+}

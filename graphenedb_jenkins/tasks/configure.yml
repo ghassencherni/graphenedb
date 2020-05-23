@@ -24,7 +24,7 @@
 # Installing helm and tiller binaries
 - name: Unarchive and copy helm and tiller binary
   unarchive:
-    src: https://get.helm.sh/helm-v2.16.6-linux-amd64.tar.gz
+    src: https://get.helm.sh/helm-v2.16.7-linux-amd64.tar.gz
     dest: /usr/bin
     remote_src: yes
     extra_opts: [--strip-components=1]
@@ -47,6 +47,17 @@
     dest: /var/lib/jenkins/plugins
     owner: jenkins
     group: jenkins
+
+# Copying certs and key for etcd (tls/ssl) 
+- name: copy cert
+  copy:
+    src: "{{ item }}"
+    dest: /var/lib/jenkins/secrets
+    owner: jenkins
+    group: root
+  with_items:
+    ['server-key.pem','server.pem','ca.crt']
+
 
 - name: get initialAdminPassword
   command: /bin/cat /var/lib/jenkins/secrets/initialAdminPassword

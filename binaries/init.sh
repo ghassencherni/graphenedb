@@ -8,6 +8,34 @@
 #Client         :GRAPHENEDB (DevOps Assesment Test)                            #
 ################################################################################
 
+###### Genrate certs for ETCD 
+
+echo "Downlod and install cfssl tool"
+curl -s -L -o ./binaries/cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+curl -s -L -o ./binaries/cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+chmod +x ./binaries/{cfssl,cfssljson}
+
+echo "Generate CA cert with defined options in ca-csr.json ..."
+./binaries/cfssl gencert -initca ./etcd_tls_certs/ca-csr.json | ./binaries/cfssljson -bare ca -
+
+echo "Generate crt from ca.csr"
+openssl x509 -req -in ca.csr -signkey ca-key.pem -out ca.crt
+
+
+echo "Generate server certificate and private key ..."
+./binaries/cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=./etcd_tls_certs/ca-config.json -profile=server ./etcd_tls_certs/server.json | cfssljson -bare server
+
+echo "Generate client certificate and private key ..."
+./binaries/cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=./etcd_tls_certs/ca-config.json -profile=client ./etcd_tls_certs/client.json | cfssljson -bare client
+
+echo "moving generated certs in their directories"
+
+# Certs will be pushed by ansible to jenkins in order to activate etcd tls/ssl
+cp server.pem server-key.pem ca.crt graphenedb_jenkins/files/
+
+# Client certs will be used to allow client requestes to etcd cluster
+mv ca.csr ca-key.pem ca.pem ca.crt client.csr client-key.pem client.pem server.csr server-key.pem server.pem ./etcd_tls_certs/
+
 
 ###### Deploying the Jenkins EC2 instance
 
@@ -73,11 +101,11 @@ do
 	    echo "Create 'graphenedb_deploy_eks' job..."
 	    java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job graphenedb_deploy_eks  < jenkins_files/graphenedb_deploy_eks.xml
 
-	    #echo "Create 'wordpress_k8s' job..."
-            #java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job wordpress_k8s < jenkins_files/wordpress_k8s.xml
+	    echo "Create 'graphenedb_deploy_etcd' job..."
+            java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job graphenedb_deploy_etcd < jenkins_files/graphenedb_deploy_etcd.xml
 
-	    #echo "Create wp_custom_docker job..."
-	    #java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job wp_custom_docker < jenkins_files/wp_custom_docker.xml
+	    echo "Create graphenedb_deploy_monitoring job..."
+	    java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job graphenedb_deploy_monitoring < jenkins_files/graphenedb_deploy_monitoring.xml
 
 
             # Delete the Jenkins Env File and AWS Credentials
