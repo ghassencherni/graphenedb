@@ -21,6 +21,14 @@
     dest: /usr/bin
     remote_src: yes
 
+# Installing helm and tiller binaries
+- name: Unarchive and copy helm and tiller binary
+  unarchive:
+    src: https://get.helm.sh/helm-v2.16.6-linux-amd64.tar.gz
+    dest: /usr/bin
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+
 - name: start and enable Jenkins
   service:
     name: jenkins
