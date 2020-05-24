@@ -40,7 +40,7 @@
     port: 8080
     delay: 30
 
-# Plugins allow to exchange artifacts between projects: used to copy kubeconfig file from "graphenedb-eks" to "graphenedb-etcd"
+# Plugins allow to exchange artifacts between projects: used to copy kubeconfig file from "mykveks-eks" to "mykveks-etcd"
 - name: Copy copy-artifacts plugin
   copy:
     src: copyartifact.jpi

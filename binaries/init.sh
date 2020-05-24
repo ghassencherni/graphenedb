@@ -31,7 +31,7 @@ echo "Generate client certificate and private key ..."
 echo "moving generated certs in their directories"
 
 # Certs will be pushed by ansible to jenkins in order to activate etcd tls/ssl
-cp server.pem server-key.pem ca.crt graphenedb_jenkins/files/
+cp server.pem server-key.pem ca.crt mykveks_jenkins/files/
 
 # Client certs will be used to allow client requestes to etcd cluster
 mv ca.csr ca-key.pem ca.pem ca.crt client.csr client-key.pem client.pem server.csr server-key.pem server.pem ./etcd_tls_certs/
@@ -56,8 +56,8 @@ echo "waiting for SSHD daemon"
 # To avoid host key checking during running install
 export ANSIBLE_HOST_KEY_CHECKING=False
 
-# Install and configure the jenkins instance using "deploy_graphenedb_jenkins.yml" playbook
-ansible-playbook deploy_graphenedb_jenkins.yml -i hosts.ini -v -u ec2-user
+# Install and configure the jenkins instance using "deploy_mykveks_jenkins.yml" playbook
+ansible-playbook deploy_mykveks_jenkins.yml -i hosts.ini -v -u ec2-user
 
 ###### Adding AWS / Gitlab credentials and creating JOBS using jenkins-cli binary
 source /tmp/jenkins.env
@@ -98,14 +98,14 @@ do
 	    java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" create-credentials-by-xml system::system::jenkins _  < jenkins_files/aws_credentials.xml
 	    echo " "
 
-	    echo "Create 'graphenedb_deploy_eks' job..."
-	    java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job graphenedb_deploy_eks  < jenkins_files/graphenedb_deploy_eks.xml
+	    echo "Create 'mykveks_deploy_eks' job..."
+	    java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job mykveks_deploy_eks  < jenkins_files/mykveks_deploy_eks.xml
 
-	    echo "Create 'graphenedb_deploy_etcd' job..."
-            java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job graphenedb_deploy_etcd < jenkins_files/graphenedb_deploy_etcd.xml
+	    echo "Create 'mykveks_deploy_etcd' job..."
+            java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job mykveks_deploy_etcd < jenkins_files/mykveks_deploy_etcd.xml
 
-	    echo "Create graphenedb_deploy_monitoring job..."
-	    java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job graphenedb_deploy_monitoring < jenkins_files/graphenedb_deploy_monitoring.xml
+	    echo "Create mykveks_deploy_monitoring job..."
+	    java -jar binaries/jenkins-cli.jar -auth admin:"${INIT_PASSWORD}" -s "${JENKINS_URL}" -webSocket create-job mykveks_deploy_monitoring < jenkins_files/mykveks_deploy_monitoring.xml
 
 
             # Delete the Jenkins Env File and AWS Credentials

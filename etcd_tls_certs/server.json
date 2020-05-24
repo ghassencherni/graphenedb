@@ -1,7 +1,7 @@
 {
     "CN": "",
     "hosts": [
-	    "*.graphenedb-etcd-headless.default.svc.cluster.local",
+	    "*.mykveks-etcd-headless.default.svc.cluster.local",
 	    "127.0.0.1",
 	    "*.eu-west-1.elb.amazonaws.com"
     ],

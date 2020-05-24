@@ -1,4 +1,4 @@
 ---
-# tasks file for graphenedb_jenkins
+# tasks file for mykveks_jenkins
 - include_tasks: install.yml
 - include_tasks: configure.yml

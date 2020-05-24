@@ -2,7 +2,7 @@
 aws_region = "eu-west-1"
 
 # The name of the public ssh key stored in AWS
-key_name = "graphenedb_key"
+key_name = "mykveks_key"
 
 # The public key for ssh connection 
 public_key_path = "~/.ssh/id_rsa.pub"

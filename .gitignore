@@ -4,8 +4,9 @@ tfplan
 tfdestroyplan
 .terraform/
 hosts.ini
-graphenedb_jenkins/files/ca.crt
-graphenedb_jenkins/files/server-key.pem
-graphenedb_jenkins/files/server.pem
+.crt
+.pem
+.pem
+.csr
 cfssl
 cfssljson

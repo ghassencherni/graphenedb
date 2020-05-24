@@ -58,7 +58,7 @@ resource "aws_instance" "jenkins_instance" {
   ami           = "ami-06ce3edf0cff21f07"
 
   tags {
-    Name = "graphenedb_jenkins"
+    Name = "mykveks_jenkins"
   }
 
   key_name  = "${aws_key_pair.my_auth.id}"

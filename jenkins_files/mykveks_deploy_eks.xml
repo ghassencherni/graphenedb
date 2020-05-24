@@ -1,41 +1,51 @@
 <?xml version='1.1' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.38">
   <actions/>
-  <description>This pipeline allows to deploy Prometheus and Grafana on EKS (scrape ETCD metrics)</description>
+  <description>This pipeline allows to deploy (or update )  / destroy EKS on AWS:&#xd;
+- Custom VPC&#xd;
+- Public subnets and security groups &#xd;
+- EKS &#xd;
+And many other resources needed to deploy AWS EKS</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.29.5">
-      <projectUrl>https://github.com/ghassencherni/graphenedb_deploy_monitoring.git</projectUrl>
+      <projectUrl>https://github.com/ghassencherni/mykveks_deploy_eks.git</projectUrl>
       <displayName></displayName>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.ChoiceParameterDefinition>
           <name>Action</name>
-          <description>Deploy / Destroy Prometheus and Grafana</description>
+          <description>Deploy / Destroy the Infrastructure</description>
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
-              <string>Deploy Monitoring</string>
-              <string>Destroy Monitoring</string>
+              <string>Deploy</string>
+              <string>Destroy</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>prometheus_chart_version</name>
-          <description>Prometheus helm chart version, Prometheus version 2.18.1 with the default chart version 11.3.0 </description>
-          <defaultValue>11.3.0</defaultValue>
+          <name>aws_region</name>
+          <description>the AWS region to deploy EKS</description>
+          <defaultValue>eu-west-1</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>grafana_chart_version</name>
-          <description>Grafana helm chart version, Grafana version 6.7.3 with the default chart version 5.0.25 </description>
-          <defaultValue>5.0.25</defaultValue>
+          <name>vpc_cidr</name>
+          <description>The CIDR of the new Custom VPC</description>
+          <defaultValue>10.0.0.0/16</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>grafana_password</name>
-          <description>The default password for the Grafana admin web access</description>
-          <defaultValue>graphenedb</defaultValue>
+          <name>public_cidr_subnet_1</name>
+          <description>The first public subnet, please respect the VPC CIDR. Used to deploy the EKS Cluster Nodes</description>
+          <defaultValue>10.0.1.0/24</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>public_cidr_subnet_2</name>
+          <description>The second public subnet, please respect the VPC CIDR. Used to deploy the EKS Cluster Nodes</description>
+          <defaultValue>10.0.2.0/24</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
@@ -46,7 +56,7 @@
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>https://github.com/ghassencherni/graphenedb_deploy_monitoring.git</url>
+          <url>https://github.com/ghassencherni/mykveks_deploy_eks.git</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
