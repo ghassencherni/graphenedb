@@ -14,7 +14,7 @@ private_key_path= "~/.ssh/id_rsa"
 instance_type = "t2.micro"
 
 # The AWS ACCESS KEY ID
-aws_access_key_id = "AKIAQA3TIL6UJZ5CDHUO"
+aws_access_key_id = ""
 
 # The AWS SECRET ACCESS KEY
-aws_secret_access_key = "CJDreskjxDNGwaymkZeOG35azlHs2C5M39Dap2/a"
+aws_secret_access_key = ""
