@@ -56,7 +56,7 @@
     owner: jenkins
     group: root
   with_items:
-    ['server-key.pem','server.pem','ca.crt']
+    ['server-key.pem','server.pem','ca.crt','client-key.pem','client.pem']
 
 
 - name: get initialAdminPassword
