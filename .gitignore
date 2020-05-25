@@ -4,9 +4,9 @@ tfplan
 tfdestroyplan
 .terraform/
 hosts.ini
-.crt
-.pem
-.pem
-.csr
+*.crt
+*.pem
+*.pem
+*.csr
 cfssl
 cfssljson
