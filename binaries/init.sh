@@ -31,7 +31,7 @@ echo "Generate client certificate and private key ..."
 echo "moving generated certs in their directories"
 
 # Certs will be pushed by ansible to jenkins in order to activate etcd tls/ssl
-cp server.pem server-key.pem ca.crt mykveks_jenkins/files/
+cp server.pem server-key.pem ca.crt client.pem client-key.pem mykveks_jenkins/files/
 
 # Client certs will be used to allow client requestes to etcd cluster
 mv ca.csr ca-key.pem ca.pem ca.crt client.csr client-key.pem client.pem server.csr server-key.pem server.pem ./etcd_tls_certs/
