@@ -15,3 +15,6 @@ terraform plan -destroy -out=tfdestroyplan -input=false
 
 terraform apply -lock=false -input=false tfdestroyplan
 
+echo "Removing all certificates .."
+rm -f etcd_tls_certs/{*pem,*.csr,*.crt}
+rm -f mykveks_jenkins/files/{*pem,*.csr,*.crt}
