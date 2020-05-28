@@ -5,7 +5,7 @@
 #Description    :Allows to destroy the jenkins instance on AWS                 #
 #Author         :Ghassen CHARNI                                                # 
 #Email          :ghassen.cherni@gmail.com                                      #
-#                                                                              #
+#Client         :GRAPHENEDB (DevOps Assesment Test)                            #
 ################################################################################
 
 
