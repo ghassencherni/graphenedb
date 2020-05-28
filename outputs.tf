@@ -1,4 +1,4 @@
-#----deploy_jenkins/outputs.tf----
+#----mykveks/outputs.tf----
 
 # Create the hosts.ini used by ansible to configure the jenkins instance
 resource "local_file" "ansible_hosts" {
