@@ -1,4 +1,4 @@
-#----deploy_jenkins/main.tf----
+#----mykveks/main.tf----
 
 provider "aws" {
   region = "${var.aws_region}"
