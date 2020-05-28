@@ -1,4 +1,4 @@
-#----deploy_jenkins/varianles.tf----
+#----mykveks/varianles.tf----
 
 variable "aws_region" {}
 
